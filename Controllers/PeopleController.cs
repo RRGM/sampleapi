@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using sampleapi.Interfaces;
+using sampleapi.Services;
 
 namespace sampleapi.Controllers;
 
@@ -22,6 +23,6 @@ public class PeopleController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetList(int limit)
     {
-        return await Task.FromResult(Ok(new { limit }));
+        return Ok(await _peopleService.GetByLimit(limit));
     }
 }

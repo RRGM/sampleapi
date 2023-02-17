@@ -38,8 +38,9 @@ namespace sampleapi.Models.Swapi
         public ICollection<string> Vehicles { get; set; }
     }
 
-    public class SwapiPeoplePaginated
+    public class SwapiPeoplePaginated : BasePagination
     {
-        
+        public ICollection<People> Results { get; set; }
+
     }
 }
