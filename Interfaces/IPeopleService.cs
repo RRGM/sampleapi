@@ -8,7 +8,7 @@ namespace sampleapi.Interfaces
 {
     public interface IPeopleService
     {
-        Task<PeopleResponse> GetByLimit(int Limit);
-        Task<PeopleResponse> GetById(int Id);
+        Task<People> GetByLimit(int Limit);
+        Task<People> GetById(int Id);
     }
 }

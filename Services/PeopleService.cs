@@ -14,14 +14,14 @@ namespace sampleapi.Services
         {
             _httpClient = httpClient;
         }
-        public async Task<PeopleResponse> GetById(int Id)
+        public async Task<People> GetById(int Id)
         {
            var response = await _httpClient.GetAsync($"/{Id}");
 
-            return new PeopleResponse();
+            return new People();
         }
 
-        public async Task<PeopleResponse> GetByLimit(int Limit)
+        public async Task<People> GetByLimit(int Limit)
         {
             throw new NotImplementedException();
         }

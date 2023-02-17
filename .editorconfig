@@ -2,3 +2,6 @@
 
 # CS8602: Desreferencia de una referencia posiblemente NULL.
 dotnet_diagnostic.CS8602.severity = silent
+
+# CS1998: El método asincrónico carece de operadores "await" y se ejecutará de forma sincrónica
+dotnet_diagnostic.CS1998.severity = none
