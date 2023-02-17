@@ -1,24 +1,38 @@
 using AutoMapper;
 using Newtonsoft.Json;
-using sampleapi.Interfaces;
 using sampleapi.Models;
 using sampleapi.Models.Swapi;
+using sampleapi.Repositories;
 
 namespace sampleapi.Services
 {
+    public interface IPeopleService
+    {
+        Task<List<People>> GetByLimit(int Limit);
+        Task<People> GetById(int Id);
+    }
+
     public class PeopleService : IPeopleService
     {
         private readonly HttpClient _httpClient;
         private readonly IMapper _mapper;
+        private readonly IDbTestRespositorty _repo;
 
-        public PeopleService(HttpClient httpClient, IMapper mapper)
+        public PeopleService(HttpClient httpClient, IMapper mapper, IDbTestRespositorty repo)
         {
             _httpClient = httpClient;
             _mapper = mapper;
-
+            _repo = repo;
         }
         public async Task<People> GetById(int Id)
         {
+            //var responseFromRepo = await _repo.GetPeopleAsync(Id);
+            
+            //if(responseFromRepo is not null)
+            //{
+            //    return responseFromRepo;
+            //}
+
             var response = await _httpClient.GetAsync($"{Id}");
 
             response.EnsureSuccessStatusCode();
@@ -27,7 +41,11 @@ namespace sampleapi.Services
 
             var apiresponse = JsonConvert.DeserializeObject<SwapiPeople>(content);
 
-            return _mapper.Map<People>(apiresponse);
+            var people = _mapper.Map<People>(apiresponse);
+
+            //await _repo.CreatePeopleAsync(people);
+
+            return people;
         }
 
         public async Task<List<People>> GetByLimit(int Limit)

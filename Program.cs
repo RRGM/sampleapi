@@ -1,16 +1,21 @@
 using sampleapi.Configuration;
-using sampleapi.Interfaces;
+using sampleapi.Repositories;
 using sampleapi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
 var configSection = builder.Configuration.GetSection("SwapiOptions");
 builder.Services.Configure<SwapiOptions>(configSection);
 var swapiOptions = configSection.Get<SwapiOptions>();
+
 // Add services to the container.
-builder.Services.AddHttpClient<IPeopleService, PeopleService>(c => 
+builder.Services.AddHttpClient<IPeopleService, PeopleService>(c =>
                                 c.BaseAddress = new Uri(swapiOptions.People.BaseUrl));
-builder.Services.AddHttpClient<IPlanetService, PlanetService>(c => 
+builder.Services.AddHttpClient<IPlanetService, PlanetService>(c =>
                                 c.BaseAddress = new Uri(swapiOptions.Planet.BaseUrl));
+
+builder.Services.AddScoped<IDbTestRespositorty, DbTestRepository>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

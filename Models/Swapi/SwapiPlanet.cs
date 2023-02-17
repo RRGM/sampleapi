@@ -39,6 +39,6 @@ namespace sampleapi.Models.Swapi
 
     public class SwapiPlanetsPaginated : BasePagination
     {
-        public ICollection<Planet> Results { get; set; }
+        public ICollection<SwapiPlanet> Results { get; set; }
     }
 }

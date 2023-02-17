@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using sampleapi.Interfaces;
+using sampleapi.Services;
 
 namespace sampleapi.Controllers;
 
@@ -10,7 +10,7 @@ public class PlanetController : ControllerBase
     private readonly IPlanetService _planetService;
     public PlanetController(IPlanetService planetService)
     {
-        _planetService= planetService;
+        _planetService = planetService;
     }
 
     [HttpGet("{id:int}")]

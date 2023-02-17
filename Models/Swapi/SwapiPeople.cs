@@ -1,12 +1,8 @@
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace sampleapi.Models.Swapi
 {
-    public class SwapiPeople : BaseEntity 
+    public class SwapiPeople : BaseEntity
     {
         [JsonProperty]
         public string Name { get; set; }
@@ -22,7 +18,7 @@ namespace sampleapi.Models.Swapi
         public string HairColor { get; set; }
         [JsonProperty]
         public string Height { get; set; }
-        [JsonProperty]  
+        [JsonProperty]
         public string Mass { get; set; }
         [JsonProperty(PropertyName = "skin_color")]
         public string SkinColor { get; set; }
@@ -40,7 +36,7 @@ namespace sampleapi.Models.Swapi
 
     public class SwapiPeoplePaginated : BasePagination
     {
-        public ICollection<People> Results { get; set; }
+        public ICollection<SwapiPeople> Results { get; set; }
 
     }
 }

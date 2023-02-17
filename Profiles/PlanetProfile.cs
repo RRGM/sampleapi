@@ -1,18 +1,19 @@
 using AutoMapper;
 using sampleapi.Models;
 using sampleapi.Models.Swapi;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace sampleapi.Profiles
 {
-    public class PlanetProfile: Profile
+    public class PlanetProfile : Profile
     {
         public PlanetProfile()
         {
-            CreateMap<SwapiPlanet, Planet>();
+            CreateMap<SwapiPlanet, Planet>()
+                    .ForMember(
+                    dest => dest.Id,
+                    opt => opt.MapFrom(src => Convert.ToInt32(Regex.Match(src.Url, @"\d+").Value))
+                    );
         }
     }
 }

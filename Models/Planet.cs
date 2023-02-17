@@ -2,6 +2,7 @@ namespace sampleapi.Models
 {
     public class Planet
     {
+        public int Id { get; set; }
         public string Climate { get; set; }
         public string Diameter { get; set; }
         public string Name { get; set; }

@@ -1,15 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Newtonsoft.Json;
-using sampleapi.Interfaces;
 using sampleapi.Models;
 using sampleapi.Models.Swapi;
 
 namespace sampleapi.Services
 {
+    public interface IPlanetService
+    {
+        Task<List<Planet>> GetByLimit(int Limit);
+        Task<Planet> GetById(int Id);
+    }
     public class PlanetService : IPlanetService
     {
         private readonly HttpClient _httpClient;
@@ -18,7 +18,7 @@ namespace sampleapi.Services
         {
             _httpClient = httpClient;
             _mapper = mapper;
-        }                                                                                                                                                                                                                                                                                              
+        }
         public async Task<Planet> GetById(int Id)
         {
             var response = await _httpClient.GetAsync($"{Id}");
@@ -47,7 +47,7 @@ namespace sampleapi.Services
 
             var apiresponse = JsonConvert.DeserializeObject<SwapiPlanetsPaginated>(content);
 
-            if(Limit <= apiresponse.Results.Count)
+            if (Limit <= apiresponse.Results.Count)
             {
                 return _mapper.Map<List<Planet>>(apiresponse.Results).GetRange(0, Limit);
             }
@@ -60,7 +60,7 @@ namespace sampleapi.Services
                 double pages = (Limit <= elemenCount) ? Math.Ceiling(Limit / (double)apiresponse.Results.Count) : maxPages;
 
                 var planetList = new List<Planet>();
-                
+
                 for (int i = 1; i <= pages; i++)
                 {
                     var pageresponse = await _httpClient.GetAsync(i == 1 ? string.Empty : $"?page={i}");
@@ -70,10 +70,10 @@ namespace sampleapi.Services
                                                 JsonConvert.DeserializeObject<SwapiPlanetsPaginated>(
                                                 await pageresponse.Content.ReadAsStringAsync())
                                                 .Results);
-                    
-                    if(mappedResponse.Count + planetList.Count > Limit)
+
+                    if (mappedResponse.Count + planetList.Count > Limit)
                     {
-                        planetList.AddRange(mappedResponse.GetRange(0 , Limit - planetList.Count));
+                        planetList.AddRange(mappedResponse.GetRange(0, Limit - planetList.Count));
                     }
                     else
                     {
