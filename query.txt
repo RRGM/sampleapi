@@ -1,0 +1,21 @@
+SELECT
+	me_subquery.year,
+	me_subquery.month,
+	me_subquery.customerid,
+	me_subquery.total_monthly_order_value
+FROM (
+	SELECT
+		subquery.*,
+		RANK() OVER (PARTITION BY year, month ORDER BY total_monthly_order_value DESC, customerid ASC) AS rank
+	FROM (
+		SELECT
+			EXTRACT(YEAR FROM orderdate) as year,
+			EXTRACT(MONTH FROM orderdate) as month,
+			customerid,
+			SUM(unitprice * quantity) AS total_monthly_order_value
+		FROM orders
+		INNER JOIN order_details USING (orderid)
+		GROUP BY customerid, year, month
+	) AS subquery
+) AS me_subquery
+WHERE rank = 1;
